@@ -790,7 +790,7 @@
     document.getElementById('rankText').innerHTML =
       `Serías, aproximadamente, el ser humano número <b>${fmtNum(rankMillions)} millones</b> en nacer, sobre un total estimado de <b>117.000 millones</b>. Eso te ubica en el percentil <b>${percentile.toFixed(1)}%</b> de todos los nacimientos de la historia.`;
   
-    const SPECIES_ORIGIN_YEAR = -300000;
+    const SPECIES_ORIGIN_YEAR = -190000;
     const speciesAgeAtBirth = y - SPECIES_ORIGIN_YEAR;
     const speciesTotalAge = 2026 - SPECIES_ORIGIN_YEAR;
     const speciesPercentile = (speciesAgeAtBirth / speciesTotalAge) * 100;
