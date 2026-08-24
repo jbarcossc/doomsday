@@ -40,6 +40,8 @@
     -webkit-font-smoothing:antialiased;
   }
 
+  p { margin: 0 }
+
   h1,h2,h3,.dial-label,.tag,.mono{ font-family:'Fraunces', Georgia, serif; }
 
   .mono, .data-mono, dd, .stat-list dt, .tick-label, .rank-text, .yr-big, .formula, .era-band text{
@@ -216,6 +218,24 @@
   }
   .rank-text b{ color:var(--gold); font-weight:600; }
 
+  .percentile-container {
+    margin-bottom: 20px;
+  }
+
+  .percentile {
+    font-size:14px;
+    color:var(--paper-dim);
+    text-align:center;
+  }
+
+  .percentile b{
+    font-size:40px;
+    width: 100%;
+    text-align: center;
+    color:var(--gold);
+    font-family:'IBM Plex Mono', monospace;
+  }
+
   /* ---------- EXPLANATION ---------- */
   .explain{ max-width:720px; margin:100px auto 0; padding:0 24px 40px; }
   .explain h2{
@@ -289,6 +309,9 @@
   </header>
 
   <section id="result" aria-live="polite">
+    <div class="percentile-container">
+      <p class="percentile" id="resultPercentile"></p>
+    </div>
     <div class="result-grid">
       <div class="map-card">
         <svg id="mapSvg" viewBox="0 0 900 420" role="img" aria-label="Mapa del nacimiento asignado"></svg>
@@ -757,7 +780,7 @@
     const prob = leaf.weight/GRAND_TOTAL;
     const oneIn = Math.round(1/prob);
     document.getElementById('probability').textContent =
-      `1 de cada ${fmtNum(oneIn)} humanos nació en este lugar y en esta era (${(prob*100).toFixed(3)}%)`;
+      `1 de cada ${fmtNum(oneIn)} humanos nació en este lugar en esta era (${(prob*100).toFixed(3)}%)`;
 
     updateMarker(leaf.lat, leaf.lon);
 
@@ -766,6 +789,13 @@
     const percentile = (rankMillions/GRAND_TOTAL)*100;
     document.getElementById('rankText').innerHTML =
       `Serías, aproximadamente, el ser humano número <b>${fmtNum(rankMillions)} millones</b> en nacer, sobre un total estimado de <b>117.000 millones</b>. Eso te ubica en el percentil <b>${percentile.toFixed(1)}%</b> de todos los nacimientos de la historia.`;
+  
+    const SPECIES_ORIGIN_YEAR = -300000;
+    const speciesAgeAtBirth = y - SPECIES_ORIGIN_YEAR;
+    const speciesTotalAge = 2026 - SPECIES_ORIGIN_YEAR;
+    const speciesPercentile = (speciesAgeAtBirth / speciesTotalAge) * 100;
+
+    document.getElementById('resultPercentile').innerHTML = `<div><p>Naciste cuando ya había transcurrido aproximadamente el</p><p><b>${speciesPercentile.toFixed(2)}%</b></p><p>de la existencia de nuestra especie.</p></div>`;
   }
 
   function reincarnate(){
